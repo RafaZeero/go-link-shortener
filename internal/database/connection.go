@@ -3,7 +3,7 @@ package database
 import (
 	"context"
 
-	"github.com/RafaZeero/internal/config"
+	"github.com/RafaZeero/go-link-shortener/internal/config"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
