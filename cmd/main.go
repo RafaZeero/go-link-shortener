@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"log"
-	"math/rand"
 	"net/http"
 
+	"github.com/RafaZeero/go-link-shortener/scripts/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +14,6 @@ type Request struct {
 }
 
 var links = make(map[string]string)
-var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 func main() {
 	r := gin.Default()
@@ -48,19 +47,10 @@ func CreateNewUrl(c *gin.Context) {
 	}
 
 	// Generate random string
-	key := randSeq(6)
+	key := utils.RandSeq(6)
 
 	// Assign to local db
 	links[key] = req.Url
 
 	c.JSON(http.StatusOK, gin.H{"newUrl": key})
-}
-
-// Create random string sequence
-func randSeq(n int) string {
-	b := make([]rune, n)
-	for i := range b {
-		b[i] = letters[rand.Intn(len(letters))]
-	}
-	return string(b)
 }
