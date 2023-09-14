@@ -5,14 +5,21 @@ services:
     build: .
     depends_on:
       - db
-    expose:
-      - '3000:3000'
+    ports:
+      - 3000:3000
     environment:
-      - DATABASE_URL=postgresql://link:link@db:5432/links
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=link
+      - DB_PASSWORD=password
+      - DB_NAME=link
   db:
     image: postgres
     ports:
       - '5432:5432'
+    restart: always
     environment:
-      POSTGRES_PASSWORD: link
-      POSTGRES_USER: link
+      - POSTGRES_USER=link
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/init.sql

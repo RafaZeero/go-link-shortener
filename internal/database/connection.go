@@ -1,24 +1,25 @@
 package database
 
 import (
-	"context"
+	"database/sql"
 
 	"github.com/RafaZeero/go-link-shortener/internal/config"
-	"github.com/jackc/pgx/v4/pgxpool"
+
+	_ "github.com/lib/pq"
 )
 
-var Connection *pgxpool.Pool
+var DB *sql.DB
 
 func Connect() error {
 	var err error
-	Connection, err = pgxpool.Connect(context.Background(), config.DatabaseURL)
+	DB, err = sql.Open("postgres", config.DatabaseURL)
 
 	return err
 }
 
 func Close() {
-	if Connection == nil {
+	if DB == nil {
 		return
 	}
-	Connection.Close()
+	DB.Close()
 }

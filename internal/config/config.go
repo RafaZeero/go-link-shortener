@@ -1,13 +1,21 @@
 package config
 
 import (
+	"fmt"
 	"os"
 )
 
 var DatabaseURL string
 
 func init() {
-	DatabaseURL = envOrFatal("DATABASE_URL")
+	host := envOrFatal("DB_HOST")
+	port := envOrFatal("DB_PORT")
+	user := envOrFatal("DB_USER")
+	password := envOrFatal("DB_PASSWORD")
+	dbname := envOrFatal("DB_NAME")
+	psqlconn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+
+	DatabaseURL = psqlconn
 }
 
 func envOrFatal(key string) string {
